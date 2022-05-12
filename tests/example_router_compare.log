@@ -1,0 +1,597 @@
+﻿stcs@MX204-R2> show system rollback compare 1 0 | no-more    
+[edit groups]
+   SC-VPLS-1G { ... }
++  GR-EDGE-COS-MOBILE {
++      interfaces {
++          <*> {
++              unit <*> {
++                  family inet {
++                      filter {
++                          output FF-EDGE-MOBILE-EGRESS;
++                      }
++                  }
++              }
++          }
++      }
++      class-of-service {
++          interfaces {
++              <*> {
++                  unit * {
++                      classifiers {
++                          dscp CL-DSCP-MOBILE-INGRESS;
++                      }
++                      rewrite-rules {
++                          ieee-802.1 RR-PCP-MOBILE;
++                      }
++                  }
++                  unit <*> {
++                      classifiers {
++                          dscp CL-DSCP-MOBILE-INGRESS;
++                      }
++                      rewrite-rules {
++                          ieee-802.1 RR-PCP-MOBILE;
++                      }
++                  }
++              }
++          }
++      }
++  }
+[edit interfaces]
++   interface-set IS-100_0_42-MOBILE {
++       interface ge-100/0/42 {
++           unit 224;
++           unit 324;
++           unit 524;
++           unit 624;
++           unit 724;
++           unit 824;
++           unit 924;
++           unit 1024;
++           unit 1124;
++       }
++   }
+[edit interfaces ge-100/0/42]
++    unit 224 {
++        apply-groups GR-EDGE-COS-MOBILE;
++        description "By NSO: site-type=Mobile-HU; service-type=5G; site-name=j_single_1g";
++        vlan-id 224;
++        family inet {
++            policer {
++                arp ARP-Policer;
++            }
++            address 10.229.202.122/30;
++        }
++    }
++    unit 324 {
++        apply-groups GR-EDGE-COS-MOBILE;
++        description "By NSO: site-type=Mobile-HU; service-type=5G-OAM; site-name=j_single_1g";
++        vlan-id 324;
++        family inet {
++            policer {
++                arp ARP-Policer;
++            }
++            address 10.244.39.226/30;
++        }
++    }
++    unit 524 {
++        apply-groups GR-EDGE-COS-MOBILE;
++        description "By NSO: site-type=Mobile-HU; service-type=2G; site-name=j_single_1g";
++        vlan-id 524;
++        family inet {
++            policer {
++                arp ARP-Policer;
++            }
++            address 10.79.40.46/30;
++        }
++    }
++    unit 624 {
++        apply-groups GR-EDGE-COS-MOBILE;
++        description "By NSO: site-type=Mobile-HU; service-type=3G; site-name=j_single_1g";
++        vlan-id 624;
++        family inet {
++            policer {
++                arp ARP-Policer;
++            }
++            address 10.79.11.2/30;
++        }
++    }
++    unit 724 {
++        apply-groups GR-EDGE-COS-MOBILE;
++        description "By NSO: site-type=Mobile-HU; service-type=3G-900; site-name=j_single_1g";
++        vlan-id 724;
++        family inet {
++            policer {
++                arp ARP-Policer;
++            }
++            address 10.157.158.66/30;
++        }
++    }
++    unit 824 {
++        apply-groups GR-EDGE-COS-MOBILE;
++        description "By NSO: site-type=Mobile-HU; service-type=LTE; site-name=j_single_1g";
++        vlan-id 824;
++        family inet {
++            policer {
++                arp ARP-Policer;
++            }
++            address 10.226.11.46/30;
++        }
++    }
++    unit 924 {
++        apply-groups GR-EDGE-COS-MOBILE;
++        description "By NSO: site-type=Mobile-HU; service-type=LTE-OAM; site-name=j_single_1g";
++        vlan-id 924;
++        family inet {
++            policer {
++                arp ARP-Policer;
++            }
++            address 10.140.11.46/30;
++        }
++    }
++    unit 1024 {
++        apply-groups GR-EDGE-COS-MOBILE;
++        description "By NSO: site-type=Mobile-HU; service-type=LTE-1800; site-name=j_single_1g";
++        vlan-id 1024;
++        family inet {
++            policer {
++                arp ARP-Policer;
++            }
++            address 10.226.174.138/30;
++        }
++    }
++    unit 1124 {
++        apply-groups GR-EDGE-COS-MOBILE;
++        description "By NSO: site-type=Mobile-HU; service-type=LTE-1800-OAM; site-name=j_single_1g";
++        vlan-id 1124;
++        family inet {
++            policer {
++                arp ARP-Policer;
++            }
++            address 10.74.63.202/30;
++        }
++    }
+[edit policy-options]
++   policy-statement PL-HU-IPRAN-2G-EXPORT {
++       term DEFAULT {
++           from protocol direct;
++           then {
++               community add RT-65000:5451;
++               accept;
++           }
++       }
++       then reject;
++   }
++   policy-statement PL-HU-IPRAN-2G-IMPORT {
++       term DEFAULT {
++           from community RT-65000:5451;
++           then accept;
++       }
++       then reject;
++   }
++   policy-statement PL-HU-IPRAN-EXPORT {
++       term DEFAULT {
++           from protocol [ direct static ];
++           then {
++               community add RT-65000:3865;
++               accept;
++           }
++       }
++       then reject;
++   }
++   policy-statement PL-HU-IPRAN-IMPORT {
++       term DEFAULT {
++           from community RT-65000:3865;
++           then accept;
++       }
++       then reject;
++   }
++   policy-statement PL-HU-LTE-EXPORT {
++       term DEFAULT {
++           from protocol direct;
++           then {
++               community add RT-65000:5453;
++               accept;
++           }
++       }
++       then reject;
++   }
++   policy-statement PL-HU-LTE-IMPORT {
++       term DEFAULT {
++           from community [ RT-65000:5453 RT-65000:5535 ];
++           then accept;
++       }
++       then reject;
++   }
++   policy-statement PL-Huawei-LTE-OAM-EXPORT {
++       term DEFAULT {
++           from protocol direct;
++           then {
++               community add RT-65000:5194;
++               accept;
++           }
++       }
++       then reject;
++   }
++   policy-statement PL-Huawei-LTE-OAM-IMPORT {
++       term DEFAULT {
++           from community RT-65000:5194;
++           then accept;
++       }
++       then reject;
++   }
+[edit policy-options]
++   community RT-65000:3865 members target:65000:3865;
++   community RT-65000:5194 members target:65000:5194;
++   community RT-65000:5451 members target:65000:5451;
++   community RT-65000:5453 members target:65000:5453;
++   community RT-65000:5535 members target:65000:5535;
+[edit]
++  class-of-service {
++      classifiers {
++          dscp CL-DSCP-DEFAULT-PLP-HIGH {
++              forwarding-class CLASS_DEFAULT {
++                  loss-priority high code-points [ 000000 000001 000010 000011 000100 000101 000110 000111 001000 001001 001010 001011 001100 001101 001110 001111 010000 010001 010010 010011 010100 010101 010110 010111 011000 011001 011010 011011 011100 011101 011110 011111 100000 100001 100010 100011 100100 100101 100110 100111 101000 101001 101010 101011 101100 101101 101110 101111 110000 110001 110010 110011 110100 110101 110110 110111 111000 111001 111010 111011 111100 111101 111110 111111 ];
++              }
++          }
++          dscp CL-DSCP-MOBILE-INGRESS {
++              import CL-DSCP-DEFAULT-PLP-HIGH;
++              forwarding-class LLQ {
++                  loss-priority low code-points [ cs4 cs5 cs6 DSCP51 DSCP54 ef af42 ];
++              }
++              forwarding-class INTERACTIVE_VIDEO {
++                  loss-priority low code-points [ af41 af43 ];
++              }
++              forwarding-class BB_PREMIUM {
++                  loss-priority low code-points [ af31 af32 ];
++                  loss-priority medium-low code-points [ af11 af21 ];
++                  loss-priority medium-high code-points [ af12 af22 ];
++              }
++              forwarding-class CLASS_DEFAULT {
++                  loss-priority low code-points [ af13 af23 cs1 cs2 be ];
++              }
++          }
++          dscp CL-DSCP-DEFAULT-PLP-LOW {
++              forwarding-class CLASS_DEFAULT {
++                  loss-priority low code-points [ 000000 000001 000010 000011 000100 000101 000110 000111 001000 001001 001010 001011 001100 001101 001110 001111 010000 010001 010010 010011 010100 010101 010110 010111 011000 011001 011010 011011 011100 011101 011110 011111 100000 100001 100010 100011 100100 100101 100110 100111 101000 101001 101010 101011 101100 101101 101110 101111 110000 110001 110010 110011 110100 110101 110110 110111 111000 111001 111010 111011 111100 111101 111110 111111 ];
++              }
++          }
++          dscp CL-DSCP-MOBILE-EGRESS {
++              import CL-DSCP-DEFAULT-PLP-LOW;
++              forwarding-class FC-EDGE-EF2 {
++                  loss-priority low code-points [ cs4 cs5 cs6 DSCP51 DSCP54 ];
++              }
++              forwarding-class FC-EDGE-EF1 {
++                  loss-priority low code-points [ af42 ef ];
++              }
++              forwarding-class FC-EDGE-AF {
++                  loss-priority low code-points [ af41 af43 ];
++              }
++              forwarding-class FC-EDGE-AF1 {
++                  loss-priority low code-points [ cs1 cs2 ];
++              }
++              forwarding-class FC-EDGE-AF4 {
++                  loss-priority low code-points [ af31 af32 ];
++              }
++              forwarding-class FC-EDGE-AF3 {
++                  loss-priority low code-points [ af11 af21 ];
++              }
++              forwarding-class FC-EDGE-AF2 {
++                  loss-priority low code-points [ af12 af22 ];
++              }
++          }
++      }
++      code-point-aliases {
++          dscp {
++              DSCP51 110011;
++              DSCP54 110110;
++          }
++          ieee-802.1 {
++              cs5 101;
++              cs3 011;
++              cs1 001;
++              be 000;
++          }
++      }
++      drop-profiles {
++          DP-LOW {
++              interpolate {
++                  fill-level [ 33 100 ];
++                  drop-probability [ 0 100 ];
++              }
++          }
++      }
++      forwarding-classes {
++          class CLASS_DEFAULT queue-num 0 priority low policing-priority normal;
++          class FC-EDGE-AF2 queue-num 4 priority low policing-priority premium;
++          class FC-EDGE-AF3 queue-num 2 priority low policing-priority premium;
++          class FC-EDGE-AF4 queue-num 5 priority low policing-priority premium;
++          class FC-EDGE-AF1 queue-num 1 priority low policing-priority premium;
++          class FC-EDGE-AF queue-num 3 priority high policing-priority premium;
++          class FC-EDGE-EF1 queue-num 7 priority high policing-priority premium;
++          class FC-EDGE-EF2 queue-num 6 priority high policing-priority premium;
++          class LLQ queue-num 7 priority high;
++          class INTERACTIVE_VIDEO queue-num 2 priority low;
++          class BB_PREMIUM queue-num 4 priority low;
++      }
++      traffic-control-profiles {
++          TP-EDGE-L2-MOBILE-700M {
++              scheduler-map SM-EDGE-MOBILE;
++              guaranteed-rate 700m;
++          }
++      }
++      interfaces {
++          interface-set IS-100_0_42-MOBILE {
++              output-traffic-control-profile TP-EDGE-L2-MOBILE-700M;
++          }
++          ge-100/0/42 {
++              unit 224 {
++                  apply-groups GR-EDGE-COS-MOBILE;
++              }
++              unit 324 {
++                  apply-groups GR-EDGE-COS-MOBILE;
++              }
++              unit 524 {
++                  apply-groups GR-EDGE-COS-MOBILE;
++              }
++              unit 624 {
++                  apply-groups GR-EDGE-COS-MOBILE;
++              }
++              unit 724 {
++                  apply-groups GR-EDGE-COS-MOBILE;
++              }
++              unit 824 {
++                  apply-groups GR-EDGE-COS-MOBILE;
++              }
++              unit 924 {
++                  apply-groups GR-EDGE-COS-MOBILE;
++              }
++              unit 1024 {
++                  apply-groups GR-EDGE-COS-MOBILE;
++              }
++              unit 1124 {
++                  apply-groups GR-EDGE-COS-MOBILE;
++              }
++          }
++      }
++      routing-instances {
++          HU-IPRAN {
++              classifiers {
++                  dscp CL-DSCP-MOBILE-EGRESS;
++              }
++          }
++          HU-IPRAN-2G {
++              classifiers {
++                  dscp CL-DSCP-MOBILE-EGRESS;
++              }
++          }
++          HU-LTE {
++              classifiers {
++                  dscp CL-DSCP-MOBILE-EGRESS;
++              }
++          }
++          Huawei-LTE-OAM {
++              classifiers {
++                  dscp CL-DSCP-MOBILE-EGRESS;
++              }
++          }
++      }
++      rewrite-rules {
++          ieee-802.1 RR-PCP-MOBILE {
++              forwarding-class FC-EDGE-EF1 {
++                  loss-priority low code-point cs5;
++              }
++              forwarding-class FC-EDGE-EF2 {
++                  loss-priority low code-point cs5;
++              }
++              forwarding-class FC-EDGE-AF {
++                  loss-priority low code-point cs3;
++              }
++              forwarding-class FC-EDGE-AF4 {
++                  loss-priority low code-point cs3;
++              }
++              forwarding-class FC-EDGE-AF3 {
++                  loss-priority low code-point cs1;
++              }
++              forwarding-class FC-EDGE-AF2 {
++                  loss-priority low code-point cs1;
++              }
++              forwarding-class FC-EDGE-AF1 {
++                  loss-priority low code-point be;
++              }
++              forwarding-class CLASS_DEFAULT {
++                  loss-priority low code-point be;
++                  loss-priority medium-low code-point be;
++                  loss-priority medium-high code-point be;
++                  loss-priority high code-point be;
++              }
++          }
++      }
++      scheduler-maps {
++          SM-EDGE-MOBILE {
++              forwarding-class FC-EDGE-EF2 scheduler SC-EDGE-MOBILE-LLQ-15;
++              forwarding-class FC-EDGE-EF1 scheduler SC-EDGE-MOBILE-LLQ-25;
++              forwarding-class FC-EDGE-AF scheduler SC-EDGE-MOBILE-WFQ-VIDEO-15;
++              forwarding-class FC-EDGE-AF1 scheduler SC-EDGE-MOBILE-WFQ-OAM-5;
++              forwarding-class FC-EDGE-AF4 scheduler SC-EDGE-MOBILE-WFQ-PLATINUM-12;
++              forwarding-class FC-EDGE-AF3 scheduler SC-EDGE-MOBILE-WFQ-GOLD-6;
++              forwarding-class FC-EDGE-AF2 scheduler SC-EDGE-MOBILE-WFQ-SILVER-8;
++              forwarding-class CLASS_DEFAULT scheduler SC-EDGE-MOBILE-WFQ-BRONZE-14;
++          }
++      }
++      schedulers {
++          SC-EDGE-MOBILE-LLQ-15 {
++              transmit-rate percent 15;
++              buffer-size temporal 10k;
++              priority high;
++          }
++          SC-EDGE-MOBILE-LLQ-25 {
++              transmit-rate percent 25;
++              buffer-size temporal 10k;
++              priority high;
++          }
++          SC-EDGE-MOBILE-WFQ-VIDEO-15 {
++              transmit-rate percent 15;
++              buffer-size temporal 50k;
++              priority medium-high;
++          }
++          SC-EDGE-MOBILE-WFQ-OAM-5 {
++              transmit-rate percent 5;
++              buffer-size percent 5;
++              priority low;
++              drop-profile-map loss-priority low protocol any drop-profile DP-LOW;
++          }
++          SC-EDGE-MOBILE-WFQ-PLATINUM-12 {
++              transmit-rate percent 12;
++              buffer-size percent 12;
++              priority medium-low;
++              drop-profile-map loss-priority low protocol any drop-profile DP-LOW;
++          }
++          SC-EDGE-MOBILE-WFQ-GOLD-6 {
++              transmit-rate percent 6;
++              buffer-size percent 6;
++              priority medium-low;
++              drop-profile-map loss-priority low protocol any drop-profile DP-LOW;
++          }
++          SC-EDGE-MOBILE-WFQ-SILVER-8 {
++              transmit-rate percent 8;
++              buffer-size percent 8;
++              priority medium-low;
++              drop-profile-map loss-priority low protocol any drop-profile DP-LOW;
++          }
++          SC-EDGE-MOBILE-WFQ-BRONZE-14 {
++              transmit-rate percent 14;
++              buffer-size percent 14;
++              priority low;
++              drop-profile-map loss-priority low protocol any drop-profile DP-LOW;
++          }
++      }
++  }
+[edit firewall]
++    family inet {
++        filter FF-EDGE-MOBILE-EGRESS {
++            term SYNC-SIG {
++                from {
++                    dscp [ cs4 cs5 cs6 51 54 ];
++                }
++                then {
++                    loss-priority low;
++                    forwarding-class FC-EDGE-EF2;
++                    accept;
++                }
++            }
++            term VOICE {
++                from {
++                    dscp [ af42 ef ];
++                }
++                then {
++                    loss-priority low;
++                    forwarding-class FC-EDGE-EF1;
++                    accept;
++                }
++            }
++            term VIDEO {
++                from {
++                    dscp [ af41 af43 ];
++                }
++                then {
++                    loss-priority low;
++                    forwarding-class FC-EDGE-AF;
++                    accept;
++                }
++            }
++            term OAM-LOW {
++                from {
++                    dscp [ cs1 cs2 ];
++                }
++                then {
++                    loss-priority low;
++                    forwarding-class FC-EDGE-AF1;
++                    accept;
++                }
++            }
++            term BB-PLATINUM {
++                from {
++                    dscp [ af31 af32 ];
++                }
++                then {
++                    loss-priority low;
++                    forwarding-class FC-EDGE-AF4;
++                    accept;
++                }
++            }
++            term BB-GOLD {
++                from {
++                    dscp [ af11 af21 ];
++                }
++                then {
++                    loss-priority low;
++                    forwarding-class FC-EDGE-AF3;
++                    accept;
++                }
++            }
++            term BB-SILVER {
++                from {
++                    dscp [ af12 af22 ];
++                }
++                then {
++                    loss-priority low;
++                    forwarding-class FC-EDGE-AF2;
++                    accept;
++                }
++            }
++            term BB-BRONZE {
++                then {
++                    loss-priority low;
++                    forwarding-class CLASS_DEFAULT;
++                    accept;
++                }
++            }
++        }
++    }
+[edit routing-instances]
++   HU-IPRAN {
++       apply-groups GR-L3VPN;
++       interface ge-100/0/42.624;
++       interface ge-100/0/42.724;
++       vrf-import PL-HU-IPRAN-IMPORT;
++       vrf-export PL-HU-IPRAN-EXPORT;
++       routing-options {
++           static {
++               route 10.74.235.192/32 next-hop 10.157.158.65;
++               route 10.79.11.0/30 next-hop 10.79.11.1;
++           }
++           auto-export;
++       }
++   }
++   HU-IPRAN-2G {
++       apply-groups GR-L3VPN;
++       interface ge-100/0/42.524;
++       vrf-import PL-HU-IPRAN-2G-IMPORT;
++       vrf-export PL-HU-IPRAN-2G-EXPORT;
++       routing-options {
++           auto-export;
++       }
++   }
++   HU-LTE {
++       apply-groups GR-L3VPN;
++       interface ge-100/0/42.224;
++       interface ge-100/0/42.824;
++       interface ge-100/0/42.1024;
++       vrf-import PL-HU-LTE-IMPORT;
++       vrf-export PL-HU-LTE-EXPORT;
++       routing-options {
++           auto-export;
++       }
++   }
++   Huawei-LTE-OAM {
++       apply-groups GR-L3VPN;
++       interface ge-100/0/42.324;
++       interface ge-100/0/42.924;
++       interface ge-100/0/42.1124;
++       vrf-import PL-Huawei-LTE-OAM-IMPORT;
++       vrf-export PL-Huawei-LTE-OAM-EXPORT;
++       routing-options {
++           auto-export;
++       }
++   }
+

@@ -1,0 +1,265 @@
+set groups GR-EDGE-COS-MOBILE interfaces interface <*> unit <*> family inet filter output filter-name FF-EDGE-MOBILE-EGRESS
+set groups GR-EDGE-COS-MOBILE class-of-service interfaces interface <*> unit * classifiers dscp CL-DSCP-MOBILE-INGRESS
+set groups GR-EDGE-COS-MOBILE class-of-service interfaces interface <*> unit * rewrite-rules ieee-802.1 rewrite-rule-name RR-PCP-MOBILE
+set groups GR-EDGE-COS-MOBILE class-of-service interfaces interface <*> unit <*> classifiers dscp CL-DSCP-MOBILE-INGRESS
+set groups GR-EDGE-COS-MOBILE class-of-service interfaces interface <*> unit <*> rewrite-rules ieee-802.1 rewrite-rule-name RR-PCP-MOBILE
+set interfaces interface-set IS-100_0_42-MOBILE interface ge-100/0/42 unit 224
+set interfaces interface-set IS-100_0_42-MOBILE interface ge-100/0/42 unit 324
+set interfaces interface-set IS-100_0_42-MOBILE interface ge-100/0/42 unit 524
+set interfaces interface-set IS-100_0_42-MOBILE interface ge-100/0/42 unit 624
+set interfaces interface-set IS-100_0_42-MOBILE interface ge-100/0/42 unit 724
+set interfaces interface-set IS-100_0_42-MOBILE interface ge-100/0/42 unit 824
+set interfaces interface-set IS-100_0_42-MOBILE interface ge-100/0/42 unit 924
+set interfaces interface-set IS-100_0_42-MOBILE interface ge-100/0/42 unit 1024
+set interfaces interface-set IS-100_0_42-MOBILE interface ge-100/0/42 unit 1124
+set interfaces interface ge-100/0/42 unit 224 apply-groups [ GR-EDGE-COS-MOBILE ]
+set interfaces interface ge-100/0/42 unit 224 description "By NSO: site-type=Mobile-HU
+set interfaces interface ge-100/0/42 unit 224 vlan-id 224
+set interfaces interface ge-100/0/42 unit 224 family inet policer arp ARP-Policer
+set interfaces interface ge-100/0/42 unit 224 family inet address 10.229.202.122/30
+set interfaces interface ge-100/0/42 unit 324 apply-groups [ GR-EDGE-COS-MOBILE ]
+set interfaces interface ge-100/0/42 unit 324 description "By NSO: site-type=Mobile-HU
+set interfaces interface ge-100/0/42 unit 324 vlan-id 324
+set interfaces interface ge-100/0/42 unit 324 family inet policer arp ARP-Policer
+set interfaces interface ge-100/0/42 unit 324 family inet address 10.244.39.226/30
+set interfaces interface ge-100/0/42 unit 524 apply-groups [ GR-EDGE-COS-MOBILE ]
+set interfaces interface ge-100/0/42 unit 524 description "By NSO: site-type=Mobile-HU
+set interfaces interface ge-100/0/42 unit 524 vlan-id 524
+set interfaces interface ge-100/0/42 unit 524 family inet policer arp ARP-Policer
+set interfaces interface ge-100/0/42 unit 524 family inet address 10.79.40.46/30
+set interfaces interface ge-100/0/42 unit 624 apply-groups [ GR-EDGE-COS-MOBILE ]
+set interfaces interface ge-100/0/42 unit 624 description "By NSO: site-type=Mobile-HU
+set interfaces interface ge-100/0/42 unit 624 vlan-id 624
+set interfaces interface ge-100/0/42 unit 624 family inet policer arp ARP-Policer
+set interfaces interface ge-100/0/42 unit 624 family inet address 10.79.11.2/30
+set interfaces interface ge-100/0/42 unit 724 apply-groups [ GR-EDGE-COS-MOBILE ]
+set interfaces interface ge-100/0/42 unit 724 description "By NSO: site-type=Mobile-HU
+set interfaces interface ge-100/0/42 unit 724 vlan-id 724
+set interfaces interface ge-100/0/42 unit 724 family inet policer arp ARP-Policer
+set interfaces interface ge-100/0/42 unit 724 family inet address 10.157.158.66/30
+set interfaces interface ge-100/0/42 unit 824 apply-groups [ GR-EDGE-COS-MOBILE ]
+set interfaces interface ge-100/0/42 unit 824 description "By NSO: site-type=Mobile-HU
+set interfaces interface ge-100/0/42 unit 824 vlan-id 824
+set interfaces interface ge-100/0/42 unit 824 family inet policer arp ARP-Policer
+set interfaces interface ge-100/0/42 unit 824 family inet address 10.226.11.46/30
+set interfaces interface ge-100/0/42 unit 924 apply-groups [ GR-EDGE-COS-MOBILE ]
+set interfaces interface ge-100/0/42 unit 924 description "By NSO: site-type=Mobile-HU
+set interfaces interface ge-100/0/42 unit 924 vlan-id 924
+set interfaces interface ge-100/0/42 unit 924 family inet policer arp ARP-Policer
+set interfaces interface ge-100/0/42 unit 924 family inet address 10.140.11.46/30
+set interfaces interface ge-100/0/42 unit 1024 apply-groups [ GR-EDGE-COS-MOBILE ]
+set interfaces interface ge-100/0/42 unit 1024 description "By NSO: site-type=Mobile-HU
+set interfaces interface ge-100/0/42 unit 1024 vlan-id 1024
+set interfaces interface ge-100/0/42 unit 1024 family inet policer arp ARP-Policer
+set interfaces interface ge-100/0/42 unit 1024 family inet address 10.226.174.138/30
+set interfaces interface ge-100/0/42 unit 1124 apply-groups [ GR-EDGE-COS-MOBILE ]
+set interfaces interface ge-100/0/42 unit 1124 description "By NSO: site-type=Mobile-HU
+set interfaces interface ge-100/0/42 unit 1124 vlan-id 1124
+set interfaces interface ge-100/0/42 unit 1124 family inet policer arp ARP-Policer
+set interfaces interface ge-100/0/42 unit 1124 family inet address 10.74.63.202/30
+set policy-options policy-statement PL-HU-IPRAN-2G-EXPORT term DEFAULT from protocol [ direct ]
+set policy-options policy-statement PL-HU-IPRAN-2G-EXPORT term DEFAULT then community add RT-65000:5451
+set policy-options policy-statement PL-HU-IPRAN-2G-EXPORT term DEFAULT then accept
+set policy-options policy-statement PL-HU-IPRAN-2G-EXPORT then reject
+set policy-options policy-statement PL-HU-IPRAN-2G-IMPORT term DEFAULT from community [ RT-65000:5451 ]
+set policy-options policy-statement PL-HU-IPRAN-2G-IMPORT term DEFAULT then accept
+set policy-options policy-statement PL-HU-IPRAN-2G-IMPORT then reject
+set policy-options policy-statement PL-HU-IPRAN-EXPORT term DEFAULT from protocol [ direct static ]
+set policy-options policy-statement PL-HU-IPRAN-EXPORT term DEFAULT then community add RT-65000:3865
+set policy-options policy-statement PL-HU-IPRAN-EXPORT term DEFAULT then accept
+set policy-options policy-statement PL-HU-IPRAN-EXPORT then reject
+set policy-options policy-statement PL-HU-IPRAN-IMPORT term DEFAULT from community [ RT-65000:3865 ]
+set policy-options policy-statement PL-HU-IPRAN-IMPORT term DEFAULT then accept
+set policy-options policy-statement PL-HU-IPRAN-IMPORT then reject
+set policy-options policy-statement PL-HU-LTE-EXPORT term DEFAULT from protocol [ direct ]
+set policy-options policy-statement PL-HU-LTE-EXPORT term DEFAULT then community add RT-65000:5453
+set policy-options policy-statement PL-HU-LTE-EXPORT term DEFAULT then accept
+set policy-options policy-statement PL-HU-LTE-EXPORT then reject
+set policy-options policy-statement PL-HU-LTE-IMPORT term DEFAULT from community [ RT-65000:5453 RT-65000:5535 ]
+set policy-options policy-statement PL-HU-LTE-IMPORT term DEFAULT then accept
+set policy-options policy-statement PL-HU-LTE-IMPORT then reject
+set policy-options policy-statement PL-Huawei-LTE-OAM-EXPORT term DEFAULT from protocol [ direct ]
+set policy-options policy-statement PL-Huawei-LTE-OAM-EXPORT term DEFAULT then community add RT-65000:5194
+set policy-options policy-statement PL-Huawei-LTE-OAM-EXPORT term DEFAULT then accept
+set policy-options policy-statement PL-Huawei-LTE-OAM-EXPORT then reject
+set policy-options policy-statement PL-Huawei-LTE-OAM-IMPORT term DEFAULT from community [ RT-65000:5194 ]
+set policy-options policy-statement PL-Huawei-LTE-OAM-IMPORT term DEFAULT then accept
+set policy-options policy-statement PL-Huawei-LTE-OAM-IMPORT then reject
+set policy-options community RT-65000:3865 members [ target:65000:3865 ]
+set policy-options community RT-65000:5194 members [ target:65000:5194 ]
+set policy-options community RT-65000:5451 members [ target:65000:5451 ]
+set policy-options community RT-65000:5453 members [ target:65000:5453 ]
+set policy-options community RT-65000:5535 members [ target:65000:5535 ]
+set class-of-service classifiers dscp CL-DSCP-DEFAULT-PLP-HIGH forwarding-class CLASS_DEFAULT loss-priority high code-points [ 000000 000001 000010 000011 000100 000101 000110 000111 001000 001001 001010 001011 001100 001101 001110 001111 010000 010001 010010 010011 010100 010101 010110 010111 011000 011001 011010 011011 011100 011101 011110 011111 100000 100001 100010 100011 100100 100101 100110 100111 101000 101001 101010 101011 101100 101101 101110 101111 110000 110001 110010 110011 110100 110101 110110 110111 111000 111001 111010 111011 111100 111101 111110 111111 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-INGRESS import CL-DSCP-DEFAULT-PLP-HIGH
+set class-of-service classifiers dscp CL-DSCP-MOBILE-INGRESS forwarding-class LLQ loss-priority low code-points [ cs4 cs5 cs6 DSCP51 DSCP54 ef af42 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-INGRESS forwarding-class INTERACTIVE_VIDEO loss-priority low code-points [ af41 af43 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-INGRESS forwarding-class BB_PREMIUM loss-priority low code-points [ af31 af32 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-INGRESS forwarding-class BB_PREMIUM loss-priority medium-low code-points [ af11 af21 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-INGRESS forwarding-class BB_PREMIUM loss-priority medium-high code-points [ af12 af22 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-INGRESS forwarding-class CLASS_DEFAULT loss-priority low code-points [ af13 af23 cs1 cs2 be ]
+set class-of-service classifiers dscp CL-DSCP-DEFAULT-PLP-LOW forwarding-class CLASS_DEFAULT loss-priority low code-points [ 000000 000001 000010 000011 000100 000101 000110 000111 001000 001001 001010 001011 001100 001101 001110 001111 010000 010001 010010 010011 010100 010101 010110 010111 011000 011001 011010 011011 011100 011101 011110 011111 100000 100001 100010 100011 100100 100101 100110 100111 101000 101001 101010 101011 101100 101101 101110 101111 110000 110001 110010 110011 110100 110101 110110 110111 111000 111001 111010 111011 111100 111101 111110 111111 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-EGRESS import CL-DSCP-DEFAULT-PLP-LOW
+set class-of-service classifiers dscp CL-DSCP-MOBILE-EGRESS forwarding-class FC-EDGE-EF2 loss-priority low code-points [ cs4 cs5 cs6 DSCP51 DSCP54 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-EGRESS forwarding-class FC-EDGE-EF1 loss-priority low code-points [ af42 ef ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-EGRESS forwarding-class FC-EDGE-AF loss-priority low code-points [ af41 af43 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-EGRESS forwarding-class FC-EDGE-AF1 loss-priority low code-points [ cs1 cs2 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-EGRESS forwarding-class FC-EDGE-AF4 loss-priority low code-points [ af31 af32 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-EGRESS forwarding-class FC-EDGE-AF3 loss-priority low code-points [ af11 af21 ]
+set class-of-service classifiers dscp CL-DSCP-MOBILE-EGRESS forwarding-class FC-EDGE-AF2 loss-priority low code-points [ af12 af22 ]
+set class-of-service code-point-aliases dscp DSCP51 bits 110011
+set class-of-service code-point-aliases dscp DSCP54 bits 110110
+set class-of-service code-point-aliases ieee-802.1 cs5 bits 101
+set class-of-service code-point-aliases ieee-802.1 cs3 bits 011
+set class-of-service code-point-aliases ieee-802.1 cs1 bits 001
+set class-of-service code-point-aliases ieee-802.1 be bits 000
+set class-of-service drop-profiles DP-LOW interpolate fill-level [ 33 100 ]
+set class-of-service drop-profiles DP-LOW interpolate drop-probability [ 0 100 ]
+set class-of-service forwarding-classes class CLASS_DEFAULT queue-num 0
+set class-of-service forwarding-classes class CLASS_DEFAULT priority low
+set class-of-service forwarding-classes class CLASS_DEFAULT policing-priority normal
+set class-of-service forwarding-classes class FC-EDGE-AF2 queue-num 4
+set class-of-service forwarding-classes class FC-EDGE-AF2 priority low
+set class-of-service forwarding-classes class FC-EDGE-AF2 policing-priority premium
+set class-of-service forwarding-classes class FC-EDGE-AF3 queue-num 2
+set class-of-service forwarding-classes class FC-EDGE-AF3 priority low
+set class-of-service forwarding-classes class FC-EDGE-AF3 policing-priority premium
+set class-of-service forwarding-classes class FC-EDGE-AF4 queue-num 5
+set class-of-service forwarding-classes class FC-EDGE-AF4 priority low
+set class-of-service forwarding-classes class FC-EDGE-AF4 policing-priority premium
+set class-of-service forwarding-classes class FC-EDGE-AF1 queue-num 1
+set class-of-service forwarding-classes class FC-EDGE-AF1 priority low
+set class-of-service forwarding-classes class FC-EDGE-AF1 policing-priority premium
+set class-of-service forwarding-classes class FC-EDGE-AF queue-num 3
+set class-of-service forwarding-classes class FC-EDGE-AF priority high
+set class-of-service forwarding-classes class FC-EDGE-AF policing-priority premium
+set class-of-service forwarding-classes class FC-EDGE-EF1 queue-num 7
+set class-of-service forwarding-classes class FC-EDGE-EF1 priority high
+set class-of-service forwarding-classes class FC-EDGE-EF1 policing-priority premium
+set class-of-service forwarding-classes class FC-EDGE-EF2 queue-num 6
+set class-of-service forwarding-classes class FC-EDGE-EF2 priority high
+set class-of-service forwarding-classes class FC-EDGE-EF2 policing-priority premium
+set class-of-service forwarding-classes class LLQ queue-num 7
+set class-of-service forwarding-classes class LLQ priority high
+set class-of-service forwarding-classes class INTERACTIVE_VIDEO queue-num 2
+set class-of-service forwarding-classes class INTERACTIVE_VIDEO priority low
+set class-of-service forwarding-classes class BB_PREMIUM queue-num 4
+set class-of-service forwarding-classes class BB_PREMIUM priority low
+set class-of-service traffic-control-profiles TP-EDGE-L2-MOBILE-700M scheduler-map SM-EDGE-MOBILE
+set class-of-service traffic-control-profiles TP-EDGE-L2-MOBILE-700M guaranteed-rate rate 700m
+set class-of-service interfaces interface-set IS-100_0_42-MOBILE output-traffic-control-profile profile-name TP-EDGE-L2-MOBILE-700M
+set class-of-service interfaces interface ge-100/0/42 unit 224 apply-groups [ GR-EDGE-COS-MOBILE ]
+set class-of-service interfaces interface ge-100/0/42 unit 324 apply-groups [ GR-EDGE-COS-MOBILE ]
+set class-of-service interfaces interface ge-100/0/42 unit 524 apply-groups [ GR-EDGE-COS-MOBILE ]
+set class-of-service interfaces interface ge-100/0/42 unit 624 apply-groups [ GR-EDGE-COS-MOBILE ]
+set class-of-service interfaces interface ge-100/0/42 unit 724 apply-groups [ GR-EDGE-COS-MOBILE ]
+set class-of-service interfaces interface ge-100/0/42 unit 824 apply-groups [ GR-EDGE-COS-MOBILE ]
+set class-of-service interfaces interface ge-100/0/42 unit 924 apply-groups [ GR-EDGE-COS-MOBILE ]
+set class-of-service interfaces interface ge-100/0/42 unit 1024 apply-groups [ GR-EDGE-COS-MOBILE ]
+set class-of-service interfaces interface ge-100/0/42 unit 1124 apply-groups [ GR-EDGE-COS-MOBILE ]
+set class-of-service routing-instances HU-IPRAN classifiers dscp classifier-name CL-DSCP-MOBILE-EGRESS
+set class-of-service routing-instances HU-IPRAN-2G classifiers dscp classifier-name CL-DSCP-MOBILE-EGRESS
+set class-of-service routing-instances HU-LTE classifiers dscp classifier-name CL-DSCP-MOBILE-EGRESS
+set class-of-service routing-instances Huawei-LTE-OAM classifiers dscp classifier-name CL-DSCP-MOBILE-EGRESS
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class FC-EDGE-EF1 loss-priority low code-point cs5
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class FC-EDGE-EF2 loss-priority low code-point cs5
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class FC-EDGE-AF loss-priority low code-point cs3
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class FC-EDGE-AF4 loss-priority low code-point cs3
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class FC-EDGE-AF3 loss-priority low code-point cs1
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class FC-EDGE-AF2 loss-priority low code-point cs1
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class FC-EDGE-AF1 loss-priority low code-point be
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class CLASS_DEFAULT loss-priority low code-point be
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class CLASS_DEFAULT loss-priority medium-low code-point be
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class CLASS_DEFAULT loss-priority medium-high code-point be
+set class-of-service rewrite-rules ieee-802.1 RR-PCP-MOBILE forwarding-class CLASS_DEFAULT loss-priority high code-point be
+set class-of-service scheduler-maps SM-EDGE-MOBILE forwarding-class FC-EDGE-EF2 scheduler SC-EDGE-MOBILE-LLQ-15
+set class-of-service scheduler-maps SM-EDGE-MOBILE forwarding-class FC-EDGE-EF1 scheduler SC-EDGE-MOBILE-LLQ-25
+set class-of-service scheduler-maps SM-EDGE-MOBILE forwarding-class FC-EDGE-AF scheduler SC-EDGE-MOBILE-WFQ-VIDEO-15
+set class-of-service scheduler-maps SM-EDGE-MOBILE forwarding-class FC-EDGE-AF1 scheduler SC-EDGE-MOBILE-WFQ-OAM-5
+set class-of-service scheduler-maps SM-EDGE-MOBILE forwarding-class FC-EDGE-AF4 scheduler SC-EDGE-MOBILE-WFQ-PLATINUM-12
+set class-of-service scheduler-maps SM-EDGE-MOBILE forwarding-class FC-EDGE-AF3 scheduler SC-EDGE-MOBILE-WFQ-GOLD-6
+set class-of-service scheduler-maps SM-EDGE-MOBILE forwarding-class FC-EDGE-AF2 scheduler SC-EDGE-MOBILE-WFQ-SILVER-8
+set class-of-service scheduler-maps SM-EDGE-MOBILE forwarding-class CLASS_DEFAULT scheduler SC-EDGE-MOBILE-WFQ-BRONZE-14
+set class-of-service schedulers SC-EDGE-MOBILE-LLQ-15 transmit-rate percent 15
+set class-of-service schedulers SC-EDGE-MOBILE-LLQ-15 buffer-size temporal 10k
+set class-of-service schedulers SC-EDGE-MOBILE-LLQ-15 priority high
+set class-of-service schedulers SC-EDGE-MOBILE-LLQ-25 transmit-rate percent 25
+set class-of-service schedulers SC-EDGE-MOBILE-LLQ-25 buffer-size temporal 10k
+set class-of-service schedulers SC-EDGE-MOBILE-LLQ-25 priority high
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-VIDEO-15 transmit-rate percent 15
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-VIDEO-15 buffer-size temporal 50k
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-VIDEO-15 priority medium-high
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-OAM-5 transmit-rate percent 5
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-OAM-5 buffer-size percent 5
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-OAM-5 priority low
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-OAM-5 drop-profile-map low any drop-profile DP-LOW
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-PLATINUM-12 transmit-rate percent 12
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-PLATINUM-12 buffer-size percent 12
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-PLATINUM-12 priority medium-low
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-PLATINUM-12 drop-profile-map low any drop-profile DP-LOW
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-GOLD-6 transmit-rate percent 6
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-GOLD-6 buffer-size percent 6
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-GOLD-6 priority medium-low
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-GOLD-6 drop-profile-map low any drop-profile DP-LOW
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-SILVER-8 transmit-rate percent 8
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-SILVER-8 buffer-size percent 8
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-SILVER-8 priority medium-low
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-SILVER-8 drop-profile-map low any drop-profile DP-LOW
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-BRONZE-14 transmit-rate percent 14
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-BRONZE-14 buffer-size percent 14
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-BRONZE-14 priority low
+set class-of-service schedulers SC-EDGE-MOBILE-WFQ-BRONZE-14 drop-profile-map low any drop-profile DP-LOW
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term SYNC-SIG from dscp [ cs4 cs5 cs6 51 54 ]
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term SYNC-SIG then loss-priority low
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term SYNC-SIG then forwarding-class FC-EDGE-EF2
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term SYNC-SIG then accept
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term VOICE from dscp [ af42 ef ]
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term VOICE then loss-priority low
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term VOICE then forwarding-class FC-EDGE-EF1
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term VOICE then accept
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term VIDEO from dscp [ af41 af43 ]
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term VIDEO then loss-priority low
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term VIDEO then forwarding-class FC-EDGE-AF
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term VIDEO then accept
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term OAM-LOW from dscp [ cs1 cs2 ]
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term OAM-LOW then loss-priority low
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term OAM-LOW then forwarding-class FC-EDGE-AF1
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term OAM-LOW then accept
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-PLATINUM from dscp [ af31 af32 ]
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-PLATINUM then loss-priority low
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-PLATINUM then forwarding-class FC-EDGE-AF4
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-PLATINUM then accept
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-GOLD from dscp [ af11 af21 ]
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-GOLD then loss-priority low
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-GOLD then forwarding-class FC-EDGE-AF3
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-GOLD then accept
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-SILVER from dscp [ af12 af22 ]
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-SILVER then loss-priority low
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-SILVER then forwarding-class FC-EDGE-AF2
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-SILVER then accept
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-BRONZE then loss-priority low
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-BRONZE then forwarding-class CLASS_DEFAULT
+set firewall family inet filter FF-EDGE-MOBILE-EGRESS term BB-BRONZE then accept
+set routing-instances instance HU-IPRAN apply-groups [ GR-L3VPN ]
+set routing-instances instance HU-IPRAN interface ge-100/0/42.624
+set routing-instances instance HU-IPRAN interface ge-100/0/42.724
+set routing-instances instance HU-IPRAN vrf-import [ PL-HU-IPRAN-IMPORT ]
+set routing-instances instance HU-IPRAN vrf-export [ PL-HU-IPRAN-EXPORT ]
+set routing-instances instance HU-IPRAN routing-options static route 10.74.235.192/32 next-hop [ 10.157.158.65 ]
+set routing-instances instance HU-IPRAN routing-options static route 10.79.11.0/30 next-hop [ 10.79.11.1 ]
+set routing-instances instance HU-IPRAN-2G apply-groups [ GR-L3VPN ]
+set routing-instances instance HU-IPRAN-2G interface ge-100/0/42.524
+set routing-instances instance HU-IPRAN-2G vrf-import [ PL-HU-IPRAN-2G-IMPORT ]
+set routing-instances instance HU-IPRAN-2G vrf-export [ PL-HU-IPRAN-2G-EXPORT ]
+set routing-instances instance HU-LTE apply-groups [ GR-L3VPN ]
+set routing-instances instance HU-LTE interface ge-100/0/42.1024
+set routing-instances instance HU-LTE interface ge-100/0/42.224
+set routing-instances instance HU-LTE interface ge-100/0/42.824
+set routing-instances instance HU-LTE vrf-import [ PL-HU-LTE-IMPORT ]
+set routing-instances instance HU-LTE vrf-export [ PL-HU-LTE-EXPORT ]
+set routing-instances instance Huawei-LTE-OAM apply-groups [ GR-L3VPN ]
+set routing-instances instance Huawei-LTE-OAM interface ge-100/0/42.1124
+set routing-instances instance Huawei-LTE-OAM interface ge-100/0/42.324
+set routing-instances instance Huawei-LTE-OAM interface ge-100/0/42.924
+set routing-instances instance Huawei-LTE-OAM vrf-import [ PL-Huawei-LTE-OAM-IMPORT ]
+set routing-instances instance Huawei-LTE-OAM vrf-export [ PL-Huawei-LTE-OAM-EXPORT ]
