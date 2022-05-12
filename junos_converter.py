@@ -62,10 +62,10 @@ def get_set_config(filein, ignore_annotations, input_type_nso, set_output):
 
     for elem in data.split("\n"):
         elem = elem.strip()
-        if elem.startswith("-") and lres[0]=="set":
-            lres[0]="delete"
-            elem = re.sub("^\-", "", elem)
-        elif elem.startswith("+"):
+        #if elem.startswith("-") and lres[0]=="set":
+        #    lres[0]="delete"
+        #    elem = re.sub("^\-", "", elem)
+        if elem.startswith("+"):
             elem = re.sub("^\+", "", elem)
         if elem.startswith("[edit"):
             elem = elem.replace("[edit ", "").replace("]","").replace("[edit","")
@@ -102,7 +102,6 @@ def get_set_config(filein, ignore_annotations, input_type_nso, set_output):
             if ";" in clean_elem:  # this is a leaf
                 # below if to remove duplicate value in edit and next child
                 all_set_commands = all_set_commands + print_set_command(lres, clean_elem.split(";")[0])
-                print(lres)
             elif clean_elem == "}":  # Up one level remove parent
                 lres.pop()
             else:
