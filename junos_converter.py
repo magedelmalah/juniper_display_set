@@ -16,6 +16,7 @@
 # the License.
 
 import argparse
+from calendar import c
 import re
 import os
 
@@ -50,7 +51,8 @@ def get_set_config(filein, ignore_annotations, input_type_nso, set_output):
         exit()
     if input_type_nso:
         data = clean_nso_text_file(data, start='             junos:configuration {\n', end="                 }\n             }\n         }\n     }\n }\n services {")
-    
+
+    data = re.sub("-\s+\}", "\n", data)
     data = re.sub(r'\s+\S+\s\{\s\.\.\.\s\}','', data) # to remove line like SC-VPLS-1G { ... }
     # Add \n for one-line configs
     data = data.replace("{", "{\n").replace("}", "\n}")
@@ -88,20 +90,31 @@ def get_set_config(filein, ignore_annotations, input_type_nso, set_output):
                 if ";" in clean_elem:
                     clean_elem = clean_elem.split()[0]
                 lannotations.append("annotate %s %s" % (clean_elem, annotation))
-                annotation = ""  
+                annotation = ""
             if "inactive" in clean_elem:
                 clean_elem = clean_elem.replace("inactive: ", "")
                 linactive = list(lres)
-                linactive[0] = "deactivate"                    
-                all_set_commands = all_set_commands + print_set_command(linactive, clean_elem)
-            if "protect" in clean_elem:
-                clean_elem = clean_elem.replace("protect: ", "")
-                lprotect = list(lres)
-                lprotect[0] = "protect"
-                all_set_commands = all_set_commands + print_set_command(lprotect, clean_elem)
-            if ";" in clean_elem:  # this is a leaf
+                linactive[0] = "deactivate"               
+                all_set_commands = all_set_commands + print_set_command(linactive, re.sub(";$$", "", clean_elem) )
+            if re.search("^\-\s", clean_elem) :
+                if not re.search(";$$", clean_elem):
+                    clean_elem = re.sub("^\-\s+", "", clean_elem)
+                    lminus = list(lres)
+                    lminus[0]= "delete"
+                    all_set_commands = all_set_commands + print_set_command(lminus, clean_elem)
+                else:
+                    clean_elem = re.sub("^\-\s+", "", clean_elem)
+                    lminus = list(lres)
+                    lminus[0]= "delete"
+                    all_set_commands = all_set_commands + print_set_command(lminus, re.sub(";$$","",clean_elem))
+            #if "protect" in clean_elem:
+            #    clean_elem = clean_elem.replace("protect: ", "")
+            #    lprotect = list(lres)
+            #    lprotect[0] = "protect"
+            #    all_set_commands = all_set_commands + print_set_command(lprotect, clean_elem)
+            elif ";" in clean_elem:  # this is a leaf
                 # below if to remove duplicate value in edit and next child
-                all_set_commands = all_set_commands + print_set_command(lres, clean_elem.split(";")[0])
+                all_set_commands = all_set_commands + print_set_command(lres, re.sub(";$$","",clean_elem))
             elif clean_elem == "}":  # Up one level remove parent
                 lres.pop()
             else:
