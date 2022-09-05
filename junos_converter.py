@@ -50,7 +50,7 @@ def get_set_config(filein, ignore_annotations, input_type_nso, set_output):
         print("Error: Could not read input file:", filein)
         exit()
     if input_type_nso:
-        data = clean_nso_text_file(data, start='             junos:configuration {\n', end="                 }\n             }\n         }\n     }\n }\n services {")
+        data = clean_nso_text_file(data, start='             configuration {\n', end="                 }\n             }\n         }\n     }\n }\n services {")
 
     data = re.sub("-\s+\}", "\n", data)
     data = re.sub(r'\s+\S+\s\{\s\.\.\.\s\}','', data) # to remove line like SC-VPLS-1G { ... }
@@ -119,7 +119,8 @@ def get_set_config(filein, ignore_annotations, input_type_nso, set_output):
                 lres.pop()
             else:
                 lres.append(clean_elem)
-    output =  ".\\" + set_output + "\\" +  filein.split("\\")[2]
+    print(filein)
+    output =  ".\\" + set_output + "\\" +  filein.split("\\")[-1]
     if os.path.exists(output):
         os.remove(output)
     with open(output, 'a') as f:
