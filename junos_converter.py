@@ -119,7 +119,6 @@ def get_set_config(filein, ignore_annotations, input_type_nso, set_output):
                 lres.pop()
             else:
                 lres.append(clean_elem)
-    print(filein)
     output =  ".\\" + set_output + "\\" +  filein.split("\\")[-1]
     if os.path.exists(output):
         os.remove(output)
